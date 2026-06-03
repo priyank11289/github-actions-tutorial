@@ -6,9 +6,6 @@ int main() {
   monitor.addSpeedReading(80);
   monitor.addSpeedReading(105);
 
-  // Intentional Static Analysis Error: Array out of bounds
-  int buffer[2];
-  buffer[5] = 100;
 
   std::cout << "Vehicle Speeding: " << (monitor.isSpeeding() ? "YES" : "NO")
             << std::endl;
