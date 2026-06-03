@@ -6,11 +6,12 @@ int main() {
   monitor.addSpeedReading(80);
   monitor.addSpeedReading(105);
 
-  // Intentional MISRA C++ Violation: C-style cast (Rule 5-2-4)
-  int roundedSpeed = (int)monitor.getAverageSpeed();
+  // Intentional Static Analysis Error: Array out of bounds
+  int buffer[2];
+  buffer[5] = 100;
 
   std::cout << "Vehicle Speeding: " << (monitor.isSpeeding() ? "YES" : "NO")
             << std::endl;
-  std::cout << "Average Speed: " << roundedSpeed << std::endl;
+  std::cout << "Average Speed: " << monitor.getAverageSpeed() << std::endl;
   return 0;
 }
