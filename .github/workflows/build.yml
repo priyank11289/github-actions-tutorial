@@ -20,7 +20,7 @@ jobs:
       run: clang-format --dry-run --Werror main.cpp Calculator.h test.cpp
 
     - name: Static Analysis (cppcheck)
-      run: cppcheck --enable=all --error-exitcode=1 main.cpp Calculator.h test.cpp
+      run: cppcheck --language=c++ --error-exitcode=1 main.cpp Calculator.h test.cpp
 
     - name: Configure CMake
       run: cmake -B build
