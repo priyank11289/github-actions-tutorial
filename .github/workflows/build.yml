@@ -1,4 +1,4 @@
-name: C++ CI
+name: C++ CI with Tests and Linters
 
 on:
   push:
@@ -13,8 +13,21 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y cppcheck clang-format
+
+    - name: Run Linter (clang-format)
+      run: clang-format --dry-run --Werror main.cpp Calculator.h test.cpp
+
+    - name: Static Analysis (cppcheck)
+      run: cppcheck --enable=all --error-exitcode=1 main.cpp Calculator.h test.cpp
+
     - name: Configure CMake
       run: cmake -B build
 
     - name: Build
       run: cmake --build build
+
+    - name: Run Tests
+      working-directory: build
+      run: ctest --output-on-failure
