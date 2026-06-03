@@ -1,0 +1,32 @@
+name: Production Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build_release:
+    name: Build and Publish Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build Application
+      run: cmake --build build --config Release
+
+    - name: Package Executable
+      working-directory: build
+      run: zip AutomotiveApp-Linux.zip AutomotiveApp
+
+    - name: Publish GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: build/AutomotiveApp-Linux.zip
+        generate_release_notes: true
