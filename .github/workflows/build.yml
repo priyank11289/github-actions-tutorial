@@ -7,20 +7,31 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  code_quality:
+    name: Lint & Static Analysis
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y lcov cppcheck clang-format
+      run: sudo apt-get update && sudo apt-get install -y cppcheck clang-format
 
     - name: Run Linter (clang-format)
       run: clang-format --dry-run --Werror main.cpp SpeedMonitor.h SpeedMonitor.cpp test.cpp
 
     - name: Static Analysis (cppcheck)
       run: cppcheck --language=c++ --error-exitcode=1 main.cpp SpeedMonitor.h SpeedMonitor.cpp test.cpp
+
+  build_and_test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    needs: code_quality # This job waits for code_quality to pass first!
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y lcov
 
     - name: Configure CMake
       run: cmake -B build
