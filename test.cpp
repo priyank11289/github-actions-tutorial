@@ -4,7 +4,7 @@
 int main() {
   SpeedMonitor monitor(100);
   monitor.addSpeedReading(90);
-  
+
   if (monitor.isSpeeding()) {
     std::cerr << "Test failed: Should not be speeding at 90" << std::endl;
     return 1;
