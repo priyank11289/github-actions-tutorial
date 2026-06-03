@@ -19,8 +19,8 @@ jobs:
     - name: Run Linter (clang-format)
       run: clang-format --dry-run --Werror main.cpp SpeedMonitor.h SpeedMonitor.cpp test.cpp
 
-    - name: Static Analysis (cppcheck)
-      run: cppcheck --language=c++ --error-exitcode=1 main.cpp SpeedMonitor.h SpeedMonitor.cpp test.cpp
+    - name: Static Analysis with MISRA (cppcheck)
+      run: cppcheck --language=c++ --error-exitcode=1 --addon=misra main.cpp SpeedMonitor.h SpeedMonitor.cpp test.cpp
 
   build_and_test:
     name: Build & Test
