@@ -1,13 +1,26 @@
-#include "Calculator.h"
+#include "SpeedMonitor.h"
 #include <iostream>
 
 int main() {
-  Calculator calc;
-  // We expect 2 + 3 to equal 5
-  if (calc.add(2, 3) != 5) {
-    std::cerr << "Test failed! 2+3 did not equal 5." << std::endl;
-    return 1; // Returning a non-zero number tells GitHub the test failed!
+  SpeedMonitor monitor(100);
+  monitor.addSpeedReading(90);
+
+  if (monitor.isSpeeding()) {
+    std::cerr << "Test failed: Should not be speeding at 90" << std::endl;
+    return 1;
   }
-  std::cout << "Test passed!" << std::endl;
+
+  monitor.addSpeedReading(110);
+  if (!monitor.isSpeeding()) {
+    std::cerr << "Test failed: Should be speeding at 110" << std::endl;
+    return 1;
+  }
+
+  if (monitor.getAverageSpeed() != 100.0) {
+    std::cerr << "Test failed: Average speed should be 100" << std::endl;
+    return 1;
+  }
+
+  std::cout << "All Automotive Tests Passed!" << std::endl;
   return 0;
 }
